@@ -1,0 +1,59 @@
+{
+  "n_skill_md_found": 232,
+  "n_unique_skills": 195,
+  "n_name_collisions_with_diff_body": 7,
+  "collisions": [
+    {
+      "name": "xlsx",
+      "task_a": "environment",
+      "task_b": "environment",
+      "digest_a": "9bdc1fee81f3",
+      "digest_b": "020ccdb59322"
+    },
+    {
+      "name": "docx",
+      "task_a": "environment",
+      "task_b": "environment",
+      "digest_a": "65c3442f5195",
+      "digest_b": "f63920be5bf2"
+    },
+    {
+      "name": "browser-testing",
+      "task_a": "environment",
+      "task_b": "environment",
+      "digest_a": "cb1a9611c3d0",
+      "digest_b": "2fbcf10778c9"
+    },
+    {
+      "name": "react-best-practices",
+      "task_a": "environment",
+      "task_b": "environment",
+      "digest_a": "66e4e2f0be45",
+      "digest_b": "0cc7e763ebc9"
+    },
+    {
+      "name": "pdf",
+      "task_a": "environment",
+      "task_b": "environment",
+      "digest_a": "38d8559d4899",
+      "digest_b": "332f39fecedc"
+    },
+    {
+      "name": "xlsx",
+      "task_a": "environment",
+      "task_b": "environment",
+      "digest_a": "9bdc1fee81f3",
+      "digest_b": "845c73412be7"
+    },
+    {
+      "name": "obj-exporter",
+      "task_a": "environment",
+      "task_b": "environment",
+      "digest_a": "92f851fcd69d",
+      "digest_b": "e6681249baea"
+    }
+  ],
+  "n_near_duplicate_candidates": 0,
+  "near_duplicate_candidates_top": [],
+  "library_dir": "/Users/zhangzuhao/code-project/skillsbench-/lib-experiment/data/library"
+}

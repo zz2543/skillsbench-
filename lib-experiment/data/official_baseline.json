@@ -1,0 +1,121 @@
+{
+  "model": "deepseek-v4-pro",
+  "harness": "OpenHands",
+  "protocol_note": "official = task-native skills (with-skill); ours(library) = all skills merged, agent self-selects",
+  "sources_tried": [
+    {
+      "name": "skillsbench.ai",
+      "url": "https://www.skillsbench.ai/leaderboard",
+      "bytes": 246175
+    },
+    {
+      "name": "skillsbench.ai-root",
+      "url": "https://www.skillsbench.ai/",
+      "bytes": 396910
+    },
+    {
+      "name": "arxiv",
+      "url": "https://arxiv.org/html/2602.12670v4",
+      "bytes": 741235
+    },
+    {
+      "name": "arxiv-abs",
+      "url": "https://arxiv.org/abs/2602.12670",
+      "bytes": 52798
+    },
+    {
+      "name": "hf-dataset",
+      "url": "https://huggingface.co/datasets/benchflow/skillsbench/raw/main/README.md",
+      "bytes": 8135
+    }
+  ],
+  "with_skill_pass_rate": 50.1,
+  "no_skill_pass_rate": 26.9,
+  "raw_hits": [
+    {
+      "source": "arxiv",
+      "url": "https://arxiv.org/html/2602.12670v4",
+      "hits": [
+        {
+          "context": "DeepSeek V4 Pro</span></td>\n<td id=\"S5.T2.18.14.3\" class=\"ltx_td ltx_align_right\" style=\"padding:0.1pt 4.5pt;\"><span id=\"S5.T2.18.14.3.1\" class=\"ltx_text\" style",
+          "numbers": [
+            "0.1",
+            "90",
+            "0.1",
+            "90"
+          ]
+        },
+        {
+          "context": "DeepSeek V4 Pro (+23.2 pp). Conversely, OpenHands + Gemini 3.5 Flash starts from a strong no-Skills baseline (41.1%) but gains only +7.1 pp, showing that high b",
+          "numbers": [
+            "41.1"
+          ]
+        },
+        {
+          "context": "DeepSeek V4 Pro</span></td>\n<td id=\"A4.T5.1.12.3\" class=\"ltx_td ltx_align_left\" style=\"padding:1.5pt 3.0pt;\"><span id=\"A4.T5.1.12.3.1\" class=\"ltx_text\" style=\"f",
+          "numbers": [
+            "80",
+            "80"
+          ]
+        },
+        {
+          "context": "DeepSeek V4 Pro</span></td>\n<td id=\"A4.T7.6.13.2\" class=\"ltx_td ltx_align_left\" style=\"padding-top:1.5pt;padding-bottom:1.5pt;\"><span id=\"A4.T7.6.13.2.1\" class=",
+          "numbers": [
+            "80"
+          ]
+        },
+        {
+          "context": "deepseek-v4-pro</span></td>\n<td id=\"A4.T7.6.13.3\" class=\"ltx_td ltx_align_left\" style=\"padding-top:1.5pt;padding-bottom:1.5pt;\"><span id=\"A4.T7.6.13.3.1\" class=",
+          "numbers": [
+            "80"
+          ]
+        },
+        {
+          "context": "DeepSeek V4 Pro</span></td>\n<td id=\"A9.T10.11.14.3\" class=\"ltx_td ltx_nopad_l ltx_nopad_r ltx_align_right\" style=\"padding:0.2pt 0.0pt;\"><span id=\"A9.T10.11.14.3",
+          "numbers": [
+            "0.2",
+            "80",
+            "0.2",
+            "80"
+          ]
+        },
+        {
+          "context": "DeepSeek V4 Pro</span></td>\n<td id=\"A9.T12.4.14.3\" class=\"ltx_td ltx_align_right\" style=\"padding-top:1.6pt;padding-bottom:1.6pt;\"><span id=\"A9.T12.4.14.3.1\" cla",
+          "numbers": [
+            "90",
+            "35.4",
+            "90",
+            "6.5"
+          ]
+        },
+        {
+          "context": "DeepSeek V4 Pro</span></td>\n<td id=\"A11.T14.1.11.3\" class=\"ltx_td ltx_align_right\" style=\"padding:1.5pt 4.0pt;\"><span id=\"A11.T14.1.11.3.1\" class=\"ltx_text\" sty",
+          "numbers": [
+            "80",
+            "69.3",
+            "80"
+          ]
+        },
+        {
+          "context": "DeepSeek V4 Pro</span></td>\n<td id=\"A12.T15.1.14.3\" class=\"ltx_td ltx_align_right\" style=\"padding:1.5pt 5.0pt;\"><span id=\"A12.T15.1.14.3.1\" class=\"ltx_text\" sty",
+          "numbers": [
+            "80",
+            "80"
+          ]
+        }
+      ]
+    }
+  ],
+  "source": "arxiv",
+  "source_url": "https://arxiv.org/html/2602.12670v4",
+  "skill_gain_pp": 23.2,
+  "n_task_instances": 261,
+  "n_tasks": 87,
+  "flash_reference": {
+    "no_skill": 27.5,
+    "with_skill": 44.7,
+    "gain_pp": 17.2,
+    "n_runs": 261,
+    "n_task_instances": 261
+  }
+}
