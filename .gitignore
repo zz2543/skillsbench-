@@ -1,0 +1,23 @@
+# === SECURITY: never commit secrets ===
+DeepSeek-api
+*.env
+.env*
+**/secrets*
+**/*api_key*
+**/*apikey*
+**/*.key
+
+# raw agent trajectories may embed the API key / auth headers — only sanitized copies are committed
+lib-experiment/results/**/raw_trajectory*
+lib-experiment/results/**/*.raw.*
+
+# derived / heavy artifacts
+lib-experiment/data/library/**
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+node_modules/
+
+# upstream benchmark is cloned as a SIBLING dir, but guard against accidental nesting
+skillsbench-upstream/
