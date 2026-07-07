@@ -28,20 +28,34 @@ for f in /etc/apt/sources.list.d/*.sources /etc/apt/sources.list; do
     -e 's#https?://security.debian.org/debian-security#http://mirrors.aliyun.com/debian-security#g' \
     "$f" || true
 done
-apt-get update >/dev/null 2>&1 && echo PATCHED_APT_OK
+apt-get update >/dev/null 2>&1
+# Pre-install uv from the aliyun pypi mirror so the agent-harness install skips the
+# flaky astral.sh bootstrap (which SSL_ERROR_SYSCALLs on this network). github +
+# pypi (via aliyun) then serve the OpenHands CLI install reliably.
+command -v pip3 >/dev/null 2>&1 || command -v pip >/dev/null 2>&1 || \
+  apt-get install -y --no-install-recommends python3 python3-pip >/dev/null 2>&1
+(pip3 install --break-system-packages -q -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com uv 2>/dev/null || \
+ pip  install --break-system-packages -q -i http://mirrors.aliyun.com/pypi/simple/ --trusted-host mirrors.aliyun.com uv 2>/dev/null)
+command -v uv >/dev/null 2>&1 && echo "PATCHED_OK uv=$(uv --version)"
 PATCH
 
 for img in "$@"; do
   echo "=== patching base image: $img ==="
   docker image inspect "$img" >/dev/null 2>&1 || docker pull "$img"
-  if docker image inspect "$img" --format '{{ index .Config.Labels "lib-experiment.apt-mirror" }}' 2>/dev/null | grep -q aliyun; then
-    echo "  already patched, skipping"; continue
+  if docker image inspect "$img" --format '{{ index .Config.Labels "lib-experiment.uv" }}' 2>/dev/null | grep -q baked; then
+    echo "  already patched (apt+uv), skipping"; continue
   fi
   cat > "$TMP/Dockerfile" <<EOF
 FROM $img
 COPY patch_apt.sh /tmp/patch_apt.sh
 RUN sh /tmp/patch_apt.sh && rm -f /tmp/patch_apt.sh
-LABEL lib-experiment.apt-mirror=aliyun
+# make uv prefer the aliyun pypi mirror (http, direct via noProxy) for deps
+ENV UV_DEFAULT_INDEX=http://mirrors.aliyun.com/pypi/simple/ \
+    UV_INDEX_URL=http://mirrors.aliyun.com/pypi/simple/ \
+    UV_INSECURE_HOST=mirrors.aliyun.com \
+    PIP_INDEX_URL=http://mirrors.aliyun.com/pypi/simple/ \
+    PIP_TRUSTED_HOST=mirrors.aliyun.com
+LABEL lib-experiment.apt-mirror=aliyun lib-experiment.uv=baked
 EOF
   docker build --network default -t "$img" "$TMP"
   echo "  retagged patched -> $img"

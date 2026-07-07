@@ -76,16 +76,19 @@ def collect(job_dir: Path, dest: Path) -> dict:
     """Copy result.json / reward.txt / sanitized trajectory into dest; return summary."""
     dest.mkdir(parents=True, exist_ok=True)
     out = {"reward": None, "n_tool_calls": None, "n_skill_invocations": None,
-           "skills_used": None, "usage": None}
+           "skills_used": None, "usage": None, "error": None, "error_category": None}
     result_files = list(job_dir.rglob("result.json"))
     if result_files:
         rj = json.loads(result_files[0].read_text(encoding="utf-8"))
         (dest / "result.json").write_text(json.dumps(rj, ensure_ascii=False, indent=2),
                                           encoding="utf-8")
-        out["reward"] = rj.get("rewards", {}).get("reward")
+        rewards = rj.get("rewards")
+        out["reward"] = rewards.get("reward") if isinstance(rewards, dict) else None
         out["n_tool_calls"] = rj.get("n_tool_calls")
         out["n_skill_invocations"] = rj.get("n_skill_invocations")
-        out["usage"] = rj.get("usage") or rj.get("agent_result", {}).get("usage")
+        out["error"] = rj.get("error")
+        out["error_category"] = rj.get("error_category")
+        out["usage"] = rj.get("final_metrics") or rj.get("agent_result", {}).get("usage")
     # sanitized trajectory (may embed auth headers)
     for tj in job_dir.rglob("acp_trajectory.jsonl"):
         raw = tj.read_text(encoding="utf-8", errors="replace")
@@ -111,6 +114,10 @@ def run_one(task: str, cond: str, model: str, env: dict, timeout: int) -> dict:
     if job_dir.exists():
         shutil.rmtree(job_dir)
     job_dir.mkdir(parents=True, exist_ok=True)
+    # benchflow reads provider creds from agent_env (not ambient os.environ), so the
+    # DeepSeek key must be passed explicitly via --agent-env; it then propagates to
+    # BENCHFLOW_PROVIDER_API_KEY -> LLM_API_KEY (openhands) and the usage-tracking route.
+    ds_key = env["DEEPSEEK_API_KEY"]
     cmd = [
         "uv", "run", "bench", "eval", "run",
         "--tasks-dir", f"tasks/{task}",
@@ -118,12 +125,15 @@ def run_one(task: str, cond: str, model: str, env: dict, timeout: int) -> dict:
         "--model", model,
         "--sandbox", "docker",
         "--usage-tracking", "required",
+        "--agent-env", f"DEEPSEEK_API_KEY={ds_key}",
+        "--agent-env", "DEEPSEEK_BASE_URL=https://api.deepseek.com/v1",
         "--jobs-dir", str(job_dir),
         *CONDITIONS[cond],
     ]
     t0 = time.time()
     log = {"task": task, "cond": cond, "model": model,
-           "ts": datetime.now(timezone.utc).isoformat(), "cmd": " ".join(cmd)}
+           "ts": datetime.now(timezone.utc).isoformat(),
+           "cmd": scrub(" ".join(cmd))}  # scrub: cmd carries the API key
     try:
         p = subprocess.run(cmd, cwd=str(UPSTREAM), env=env, timeout=timeout,
                            capture_output=True, text=True)
@@ -145,7 +155,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--tasks", default=None, help="comma list; default = subset_10.json")
     ap.add_argument("--conditions", default="no-skill,library")
-    ap.add_argument("--model", default="deepseek-v4-pro")
+    ap.add_argument("--model", default="deepseek/deepseek-v4-pro")  # official leaderboard id
     ap.add_argument("--timeout", type=int, default=2700, help="per-run seconds")
     ap.add_argument("--limit", type=int, default=0, help="max tasks (0 = all)")
     ap.add_argument("--force", action="store_true", help="re-run even if done")

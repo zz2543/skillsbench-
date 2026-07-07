@@ -1,0 +1,150 @@
+{
+  "task_name": "financial-modeling-qa",
+  "rollout_name": "financial-modeling-qa__41167673",
+  "rewards": {
+    "reward": 0.0
+  },
+  "agent": "openhands",
+  "agent_name": "OpenHands CLI ACP Agent",
+  "model": "deepseek/deepseek-v4-pro",
+  "skill_mode": "no-skill",
+  "skill_source": "none",
+  "requested_skills_dir": null,
+  "effective_skills_dir": null,
+  "skills_sandbox_dir": null,
+  "include_task_skills": false,
+  "n_tool_calls": 15,
+  "n_skill_invocations": 0,
+  "n_prompts": 1,
+  "agent_result": {
+    "n_tool_calls": 15,
+    "n_skill_invocations": 0,
+    "n_prompts": 1,
+    "n_input_tokens": 324114,
+    "n_output_tokens": 8018,
+    "n_cache_read_tokens": 298752,
+    "n_cache_creation_tokens": 0,
+    "total_tokens": 332132,
+    "cost_usd": 0.01046892,
+    "usage_source": "provider_response",
+    "price_source": "litellm"
+  },
+  "final_metrics": {
+    "total_prompt_tokens": 324114,
+    "total_completion_tokens": 8018,
+    "total_cached_tokens": 298752,
+    "total_cost_usd": 0.01046892
+  },
+  "trajectory_summary": {
+    "steps": 32,
+    "tool_call_steps": 15,
+    "user_message_steps": 1,
+    "agent_message_steps": 1,
+    "agent_thought_steps": 15,
+    "other_steps": 0,
+    "event_type_counts": {
+      "user_message": 1,
+      "agent_thought": 15,
+      "tool_call": 15,
+      "agent_message": 1
+    },
+    "tool_call_status_counts": {
+      "pending": 3,
+      "completed": 12
+    },
+    "partial_trajectory": false,
+    "trajectory_source": "acp"
+  },
+  "usage_tracking": {
+    "requested": "required",
+    "status": "enabled",
+    "environment": "docker",
+    "endpoint_kind": "host",
+    "usage_source": "provider_response"
+  },
+  "error": null,
+  "error_category": null,
+  "verifier_error": null,
+  "verifier_error_category": null,
+  "export_error": null,
+  "idle_timeout_info": null,
+  "agent_timeout_info": null,
+  "sandbox_startup_info": null,
+  "transport_error_info": null,
+  "verifier_timeout_info": null,
+  "api_error_info": null,
+  "suspected_api_error_info": null,
+  "partial_trajectory": false,
+  "trajectory_source": "acp",
+  "started_at": "2026-07-07 16:10:31.838708",
+  "finished_at": "2026-07-07 16:15:30.855670",
+  "timing": {
+    "environment_setup": 1.7,
+    "agent_setup": 12.6,
+    "agent_execution": 120.0,
+    "verifier": 29.5,
+    "total": 299.0
+  },
+  "scenes": [
+    {
+      "name": "default",
+      "skills_dir": null,
+      "roles": [
+        {
+          "name": "agent",
+          "agent": "openhands",
+          "model": "deepseek/deepseek-v4-pro",
+          "reasoning_effort": null,
+          "timeout_sec": null,
+          "idle_timeout_sec": null,
+          "skills_dir": null,
+          "capabilities": null,
+          "env_keys": []
+        }
+      ],
+      "turns": [
+        {
+          "role": "agent",
+          "has_prompt": false
+        }
+      ]
+    }
+  ],
+  "loop": {
+    "strategy": "single-shot"
+  },
+  "source": {
+    "type": "github",
+    "repo": "benchflow-ai/skillsbench",
+    "requested_ref": "main",
+    "resolved_sha": "5433cf15c343f0da5fb942b80dc7dcb7c76506df",
+    "path": "tasks/financial-modeling-qa",
+    "dirty": false,
+    "file_hashes": {
+      "environment/Dockerfile": "sha256:1a96660506b8ff1bd2ed9b87f1e756bad4c4a05ddd38be4b645b36ed3a3a3f53",
+      "environment/background.pdf": "sha256:832ea5a99da6aeba8ed25f719c7d3ed035720871493a07ed43cae030463d8273",
+      "environment/data.xlsx": "sha256:b07809fca2e61dfe75dd3b43f0f6d5839d64697ed2f0a34c78367cf6dd204195",
+      "environment/skills/pdf/SKILL.md": "sha256:38d8559d4899602f82f3560052132aa0c40cfca80203037729756bdb4fb8e0cb",
+      "environment/skills/pdf/references/LICENSE.txt": "sha256:79f6d8f5b427252fa3b1c11ecdbdb6bf610b944f7530b4de78f770f38741cfaa",
+      "environment/skills/pdf/references/forms.md": "sha256:0ab10e9095deb1c1f9f79eb04254589f55c1d16e095cb53191e03f9fc3184449",
+      "environment/skills/pdf/references/reference.md": "sha256:03a5f964f8abecbbe156f363356e927e864d7ee964f1012c84ee1bfc8acbeb95",
+      "environment/skills/pdf/scripts/check_bounding_boxes.py": "sha256:eb2a5f79c8aa10c57b5867e1f0fc75b52a68b1218442ef9d838dfb4b9eedc6f4",
+      "environment/skills/pdf/scripts/check_bounding_boxes_test.py": "sha256:f95dca01a8b79aafd152511e9f7bf2bbcd606dde1be77d691f03a18624e002ca",
+      "environment/skills/pdf/scripts/check_fillable_fields.py": "sha256:250d5aa4e8451d6a83d17d3550c14e6c844ac347145f916ebf7980b118312b41",
+      "environment/skills/pdf/scripts/convert_pdf_to_images.py": "sha256:095a0105a718af75ede309cb03f84a20c81d17f1727f7686fd4b294f1f40294f",
+      "environment/skills/pdf/scripts/create_validation_image.py": "sha256:89675be66b48925d7b498eb9454521c78cf9e9ff188ebf094934b598550effe5",
+      "environment/skills/pdf/scripts/extract_form_field_info.py": "sha256:9db1a2720cf54223cdc4bf797080c70f4e0d27288d9f400e066c14524519021d",
+      "environment/skills/pdf/scripts/fill_fillable_fields.py": "sha256:65b3e41969707022283a313a4cf9696d31793cbe255dffe13370e75abda448a7",
+      "environment/skills/pdf/scripts/fill_pdf_form_with_annotations.py": "sha256:599d6f307edb4ee6b837f21d0ea860c41c22246e270b45d6bc750c5b87c86ce0",
+      "environment/skills/xlsx/LICENSE.txt": "sha256:79f6d8f5b427252fa3b1c11ecdbdb6bf610b944f7530b4de78f770f38741cfaa",
+      "environment/skills/xlsx/SKILL.md": "sha256:020ccdb5932257b66c638ec1157ea248d57fa52c8c01f1f68b559b5970c7df35",
+      "environment/skills/xlsx/recalc.py": "sha256:ab1ef0c94536bb23b6c6a3d32769b0401ec3cc85e73c247d574dd84ec73af15d",
+      "oracle/solve.sh": "sha256:75171aad9ccbc6bb498937822fd024063616c4284d3f4261a52a3ebd72de02c4",
+      "task.md": "sha256:83c9740297d9c67576707d933ba1e9b8660f8cbfd941e1082d170105432b4d13",
+      "verifier/test.sh": "sha256:fe7195562321b71ace6e1f6858994939238cc7ce0ec2d0ae3b610278489a42b7",
+      "verifier/test_outputs.py": "sha256:66550d2f2b83314342c8ea8c81a867d06bbc0b177c23f34b44161f022d64f5ec"
+    }
+  },
+  "task_digest": "sha256:c9fd9621f3d14dda5cb73b9d5e30ccdbfcc3c0311d51ab0502ef17065e14770f",
+  "sandbox_id": null
+}

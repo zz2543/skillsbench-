@@ -7,7 +7,9 @@ DeepSeek-api
 **/*apikey*
 **/*.key
 
-# raw agent trajectories may embed the API key / auth headers — only sanitized copies are committed
+# raw benchflow job output logs the agent env (incl. DEEPSEEK_API_KEY) — never commit.
+# Only the sanitized results/runs/ + run_log.jsonl + summary.json are committed.
+lib-experiment/results/_jobs/
 lib-experiment/results/**/raw_trajectory*
 lib-experiment/results/**/*.raw.*
 

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>库化技能基线实验 · SkillsBench-Lib × OpenHands × DeepSeek V4 Pro</title>
+<style>
+  :root{
+    --bg:#0a0b0f; --panel:#12141c; --panel2:#171a24; --line:#242838;
+    --ink:#e8eaf0; --muted:#9aa0b4; --dim:#6b7186;
+    --brand:#5b8cff; --brand2:#8b5cff; --good:#33d69f; --bad:#ff5c7a; --warn:#ffb84d;
+    --mono:'SF Mono',ui-monospace,'JetBrains Mono',Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.65;
+    -webkit-font-smoothing:antialiased;background-image:
+      radial-gradient(1200px 600px at 80% -10%,rgba(91,140,255,.10),transparent),
+      radial-gradient(900px 500px at 0% 10%,rgba(139,92,255,.08),transparent);}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  a{color:var(--brand);text-decoration:none}
+  code{font-family:var(--mono);font-size:.86em;background:#0e1017;border:1px solid var(--line);
+    border-radius:6px;padding:1px 6px;color:#cbd2ea}
+  h2{font-size:26px;letter-spacing:-.4px;margin:0 0 6px}
+  h3{font-size:17px;margin:22px 0 8px;color:#eef1f8}
+  p{color:var(--muted)}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--brand)}
+  /* nav */
+  nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);
+    background:rgba(10,11,15,.72);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;gap:20px;height:56px}
+  nav b{font-size:14px;letter-spacing:.3px}
+  nav .links{margin-left:auto;display:flex;gap:18px;flex-wrap:wrap}
+  nav a{color:var(--dim);font-size:13px}
+  nav a:hover{color:var(--ink)}
+  /* hero */
+  header{padding:72px 0 40px}
+  header h1{font-size:44px;line-height:1.12;letter-spacing:-1px;font-weight:700;
+    background:linear-gradient(180deg,#fff,#b9c2e6);-webkit-background-clip:text;background-clip:text;color:transparent}
+  header .sub{font-size:18px;color:var(--muted);margin-top:14px;max-width:760px}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:22px}
+  .tag{font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--line);
+    background:var(--panel);border-radius:999px;padding:5px 12px}
+  /* sections */
+  section{padding:46px 0;border-top:1px solid var(--line)}
+  .lead{font-size:16px;color:#c3c9dc;max-width:820px}
+  /* grid + cards */
+  .grid{display:grid;gap:16px;margin-top:22px}
+  .g4{grid-template-columns:repeat(4,1fr)} .g3{grid-template-columns:repeat(3,1fr)}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .card{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);
+    border-radius:16px;padding:20px}
+  .stat .n{font-size:34px;font-weight:700;letter-spacing:-1px;font-family:var(--mono)}
+  .stat .l{font-size:12.5px;color:var(--dim);margin-top:4px;text-transform:uppercase;letter-spacing:.5px}
+  .stat .d{font-size:13px;color:var(--muted);margin-top:8px}
+  .accent-b{color:var(--brand)} .accent-p{color:var(--brand2)} .accent-g{color:var(--good)}
+  .accent-r{color:var(--bad)} .accent-w{color:var(--warn)}
+  ul.clean{list-style:none;margin-top:10px} ul.clean li{padding:7px 0 7px 22px;position:relative;color:var(--muted)}
+  ul.clean li::before{content:'';position:absolute;left:2px;top:15px;width:7px;height:7px;border-radius:2px;background:var(--brand)}
+  /* table */
+  table{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line)}
+  th{color:var(--dim);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.5px}
+  td{color:#cdd3e6}
+  tr:hover td{background:#0e1017}
+  .pill{display:inline-block;font-family:var(--mono);font-size:12px;padding:2px 9px;border-radius:999px}
+  .pill.p{background:rgba(51,214,159,.14);color:var(--good)} .pill.f{background:rgba(255,92,122,.14);color:var(--bad)}
+  .pill.n{background:rgba(154,160,180,.12);color:var(--muted)}
+  /* flow diagram */
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap;margin-top:20px}
+  .node{flex:1;min-width:150px;background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:16px;position:relative}
+  .node .k{font-family:var(--mono);font-size:11px;color:var(--brand);letter-spacing:1px}
+  .node .t{font-size:15px;font-weight:600;margin-top:6px} .node .s{font-size:12.5px;color:var(--dim);margin-top:4px}
+  .arrow{display:flex;align-items:center;justify-content:center;color:var(--dim);font-size:22px;padding:0 6px}
+  /* callout */
+  .callout{background:linear-gradient(180deg,rgba(91,140,255,.08),rgba(139,92,255,.05));
+    border:1px solid rgba(91,140,255,.3);border-radius:16px;padding:22px;margin-top:20px}
+  .callout h3{margin-top:0}
+  .kv{font-family:var(--mono);font-size:13px;color:#c3c9dc}
+  .note{font-size:13px;color:var(--dim);margin-top:8px}
+  /* bars (svg injected) */
+  .chart{margin-top:18px}
+  footer{padding:48px 0 80px;color:var(--dim);font-size:13px;border-top:1px solid var(--line)}
+  .badge{font-family:var(--mono);font-size:11px;padding:3px 8px;border-radius:6px;border:1px solid var(--line);color:var(--muted)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  @media(max-width:820px){.g4,.g3,.g2,.two{grid-template-columns:1fr 1fr}header h1{font-size:34px}}
+  @media(max-width:520px){.g4,.g3,.g2,.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <b>库化技能基线实验</b>
+  <div class="links">
+    <a href="#bg">背景</a><a href="#arch">框架</a><a href="#eng">工程</a>
+    <a href="#method">方法</a><a href="#results">结果</a><a href="#compare">对比官方</a><a href="#next">下一步</a>
+  </div>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="eyebrow">SkillsBench-Lib · Experiment E0–E1 slice</div>
+  <h1>库化部署下，智能体<br>技能的组合干扰基线</h1>
+  <p class="sub">把 SkillsBench 全部技能合并成<b style="color:#dfe4f5">一个库</b>，让 DeepSeek V4 Pro 驱动的
+    OpenHands 智能体<b style="color:#dfe4f5">自己挑技能</b>完成任务——在与官方榜单完全相同的 harness 下，
+    测量"库化"相对"任务自带技能"的性能变化。本阶段<b style="color:#dfe4f5">不含</b>冲突检测 / CASL 框架。</p>
+  <div class="tags">
+    <span class="tag">benchflow-ai/skillsbench @5433cf15</span>
+    <span class="tag">OpenHands harness (ACP)</span>
+    <span class="tag">deepseek/deepseek-v4-pro</span>
+    <span class="tag">Docker sandbox · 确定性 verifier</span>
+    <span class="tag">10 任务 · 库化 195 技能</span>
+  </div>
+</div></header>
+
+<!-- KEY NUMBERS -->
+<section style="border-top:none;padding-top:8px"><div class="wrap">
+  <div class="grid g4" id="kpi"><!-- injected --></div>
+  <p class="note">官方 DeepSeek V4 Pro 基线来自 SkillsBench 论文（arXiv 2602.12670v4，OpenHands harness，87 任务×3=261 次）。
+    我们的数字由 <span id="kpi-src">本次实验</span> 得出，条件不同处已在下文标注。</p>
+</div></section>
+
+<!-- BACKGROUND -->
+<section id="bg"><div class="wrap">
+  <div class="eyebrow">01 · 背景与问题</div>
+  <h2>为什么要研究"库化技能"</h2>
+  <p class="lead">技能（Agent Skill）是注入给 LLM 智能体的可复用过程知识包。SkillsBench 证明：人工技能平均把任务通过率
+    提高约 16 个百分点；但它的原生协议是"每个任务只装它自己的技能"——不存在真实部署里的<b>库化检索</b>环节。
+    真实部署中，用户会装几十上百个来源各异的技能，系统靠约 30 token 的元数据检索、注入多个技能，
+    多技能共存时可能相互干扰（指令矛盾、功能冗余、上下文稀释、顺序敏感）。</p>
+  <div class="grid g3">
+    <div class="card"><h3 style="margin-top:0">现象</h3><p>库化检索会损失多少性能？负增益任务是否增多？</p></div>
+    <div class="card"><h3 style="margin-top:0">本阶段目标</h3><p>先做<b style="color:#dfe4f5">最朴素</b>的一版：全量库化 + agent 自选，不做任何冲突处理，量出基线变化。</p></div>
+    <div class="card"><h3 style="margin-top:0">对照基准</h3><p>官方 DeepSeek V4 Pro 榜单分（任务自带技能 = oracle 协议）。</p></div>
+  </div>
+</div></section>
+
+<!-- ARCHITECTURE -->
+<section id="arch"><div class="wrap">
+  <div class="eyebrow">02 · 系统框架</div>
+  <h2>评测数据流</h2>
+  <p class="lead">复用官方 <code>bench eval</code> 框架与 OpenHands harness，只改"技能从哪来"：把
+    <code>--skills-dir</code> 指向合并后的全量库，其余（容器、注入链路、verifier）保持不变，
+    从而与官方 DeepSeek V4 Pro 结果可比。</p>
+  <div class="flow">
+    <div class="node"><div class="k">TASK</div><div class="t">SkillsBench 任务</div><div class="s">Dockerfile + task.md + 确定性 verifier</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="k">LIBRARY</div><div class="t">库化技能层</div><div class="s">195 技能合并为一个池 · 元数据渐进式披露</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="k">AGENT</div><div class="t">OpenHands (ACP)</div><div class="s">invoke_skill 自选 · 沙箱内自装</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="k">LLM</div><div class="t">DeepSeek V4 Pro</div><div class="s">OpenAI 兼容端点 · 推理模型</div></div>
+    <div class="arrow">→</div>
+    <div class="node"><div class="k">SCORE</div><div class="t">Verifier</div><div class="s">reward.txt ∈ {0,1}</div></div>
+  </div>
+  <div class="grid g2" style="margin-top:22px">
+    <div class="card"><h3 style="margin-top:0">两个条件（同一 10 任务）</h3>
+      <ul class="clean">
+        <li><b style="color:#dfe4f5">no-skill</b>：不注入任何技能（floor）——<code>--skill-mode no-skill</code></li>
+        <li><b style="color:#dfe4f5">library</b>：注入<b>全量 195 技能库</b>，agent 自选——<code>--skill-mode with-skill --skills-dir data/library</code></li>
+      </ul></div>
+    <div class="card"><h3 style="margin-top:0">技能是怎么"自选"的</h3>
+      <p>OpenHands 把库里每个技能以名称+简介暴露为 <code>invoke_skill(name=…)</code> 工具，模型按语义自行调用——
+        这正是 Anthropic 渐进式披露、也是真实库化部署的形态。库化后 195 个候选同时可见。</p></div>
+  </div>
+</div></section>
+
+<!-- ENGINEERING -->
+<section id="eng"><div class="wrap">
+  <div class="eyebrow">03 · 工程搭建</div>
+  <h2>把官方基准在本机（中国网络）跑通</h2>
+  <p class="lead">最大的工程量不在"调用 API"，而在让 Docker 沙箱在 Clash（fake-ip/TUN）代理下完成
+    <b>镜像构建 + OpenHands 自装 + verifier</b> 的全链路网络。三处配合后 oracle 冒烟通过（reward=1）。</p>
+  <div class="two">
+    <div class="card"><h3 style="margin-top:0">诊断到的三类网络问题</h3>
+      <ul class="clean">
+        <li>ubuntu/debian 官方 apt 镜像被 fake-ip 路由，返回 <code>502</code>（80/87 任务镜像受影响）</li>
+        <li><code>astral.sh</code> 的 uv 安装脚本 <code>SSL_ERROR_SYSCALL</code></li>
+        <li>github 直连失败，但经 Clash HTTP 代理可用；aliyun 直连可用</li>
+      </ul></div>
+    <div class="card"><h3 style="margin-top:0">解决方案（三处）</h3>
+      <ul class="clean">
+        <li><b style="color:#dfe4f5">代理桥</b>：<code>0.0.0.0:7898 → 127.0.0.1:7897</code> 暴露 loopback-only 的 Clash</li>
+        <li><b style="color:#dfe4f5">Docker 代理</b>：HTTPS 走代理，<code>noProxy</code> 让 aliyun 直连</li>
+        <li><b style="color:#dfe4f5">基础镜像补丁</b>：apt→aliyun HTTP + 预装 uv，OpenHands 自装遂稳定成功</li>
+      </ul></div>
+  </div>
+  <div class="callout">
+    <h3>凭证接线（DeepSeek → OpenHands via benchflow）</h3>
+    <p class="kv">--model deepseek/deepseek-v4-pro &nbsp;·&nbsp; --agent-env DEEPSEEK_API_KEY=… &nbsp;·&nbsp; DEEPSEEK_BASE_URL=api.deepseek.com/v1</p>
+    <p class="note">benchflow 把 DEEPSEEK_API_KEY → BENCHFLOW_PROVIDER_API_KEY → 映射为 OpenHands 的 LLM_API_KEY/LLM_BASE_URL；
+      带 <code>deepseek/</code> 前缀才能让 host 侧用量计费路由到 deepseek provider 而非 openai。密钥全程 gitignore、日志打码。</p>
+  </div>
+  <h3>代码框架（<code>lib-experiment/</code>）</h3>
+  <div class="grid g3">
+    <div class="card"><div class="k" style="font-family:var(--mono);color:var(--brand);font-size:12px">build_library.py</div><p class="note">合并全部任务技能→一个库 + 元数据索引 + 冲突/近重复统计</p></div>
+    <div class="card"><div class="k" style="font-family:var(--mono);color:var(--brand);font-size:12px">select_subset.py</div><p class="note">跨 8 领域分层选 10 个多技能任务</p></div>
+    <div class="card"><div class="k" style="font-family:var(--mono);color:var(--brand);font-size:12px">run_eval.py</div><p class="note">驱动 OpenHands+DeepSeek，两条件，断点续跑，日志打码</p></div>
+    <div class="card"><div class="k" style="font-family:var(--mono);color:var(--brand);font-size:12px">setup_base_images.sh</div><p class="note">基础镜像 apt→aliyun + 预装 uv</p></div>
+    <div class="card"><div class="k" style="font-family:var(--mono);color:var(--brand);font-size:12px">fetch_baseline.py</div><p class="note">抓取官方 DeepSeek V4 Pro 榜单分</p></div>
+    <div class="card"><div class="k" style="font-family:var(--mono);color:var(--brand);font-size:12px">collect_results.py</div><p class="note">汇总 reward/token/成本 → summary.json</p></div>
+  </div>
+</div></section>
+
+<!-- METHOD -->
+<section id="method"><div class="wrap">
+  <div class="eyebrow">04 · 方法与数据</div>
+  <h2>库与子集</h2>
+  <div class="grid g4" id="method-kpi"><!-- injected --></div>
+  <h3>10 个任务（跨领域分层，均为多技能任务）</h3>
+  <table id="subset-table"><thead><tr><th>任务</th><th>领域</th><th>难度</th><th>自带技能数</th></tr></thead>
+    <tbody><!-- injected --></tbody></table>
+</div></section>
+
+<!-- RESULTS -->
+<section id="results"><div class="wrap">
+  <div class="eyebrow">05 · 结果</div>
+  <h2>库化 vs 无技能（同一 10 任务）</h2>
+  <p class="lead" id="results-lead">结果注入后显示。</p>
+  <div class="chart" id="chart-tasks"><!-- svg injected --></div>
+  <table id="results-table" style="margin-top:24px"><thead><tr>
+    <th>任务</th><th>no-skill</th><th>library</th><th>库化 Δ</th><th>选用技能数</th><th>tokens</th></tr></thead>
+    <tbody><!-- injected --></tbody></table>
+</div></section>
+
+<!-- COMPARE -->
+<section id="compare"><div class="wrap">
+  <div class="eyebrow">06 · 对比官方 DeepSeek V4 Pro</div>
+  <h2>相对官方基线的变化</h2>
+  <div class="chart" id="chart-compare"><!-- svg injected --></div>
+  <p class="note" id="compare-note"></p>
+</div></section>
+
+<!-- NEXT -->
+<section id="next"><div class="wrap">
+  <div class="eyebrow">07 · 局限与下一步</div>
+  <h2>本阶段结论与后续</h2>
+  <div class="grid g2">
+    <div class="card"><h3 style="margin-top:0">局限</h3>
+      <ul class="clean">
+        <li>10 任务、每条件 1 次重复——量级信号，非统计定论</li>
+        <li>库化=全量 195 技能同时可见，未做任何检索/裁剪</li>
+        <li>与官方为同 harness、同模型，但技能供给协议不同（自选 vs 自带）</li>
+      </ul></div>
+    <div class="card"><h3 style="margin-top:0">下一步（CASL）</h3>
+      <ul class="clean">
+        <li>两两交互测量 → 稀疏干扰矩阵</li>
+        <li>组合感知加载：静态筛查 → 定向验证 → 冲突图子集选择</li>
+        <li>目标：消除库化损失、修复负增益任务</li>
+      </ul></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <p><span class="badge">generated by lib-experiment</span> &nbsp; 数据源：<span id="foot-data">results/summary.json</span> ·
+    官方基线：<a href="https://arxiv.org/html/2602.12670v4" target="_blank">arXiv 2602.12670v4</a> ·
+    基准：<a href="https://github.com/benchflow-ai/skillsbench" target="_blank">benchflow-ai/skillsbench</a></p>
+  <p style="margin-top:6px">研究计划见《库化部署下智能体技能的组合干扰》开题报告。密钥与原始 trajectory 不入库。</p>
+</div></footer>
+
+<script>
+/* ===== DATA (injected/updated by collect_results.py output) ===== */
+const DATA = window.__DATA__ || {
+  status: "PENDING",
+  official: {no_skill:26.9, with_skill:50.1, gain_pp:23.2, harness:"OpenHands", n_tasks:87},
+  library_stats: {n_skill_md:232, n_unique:195, n_collisions:7},
+  our: {no_skill_mean:null, library_mean:null, delta_pp:null, n:0, cost_usd:null,
+        noskill_vs_official_pp:null, library_vs_official_withskill_pp:null},
+  negative_gain:[], helped:[],
+  subset: [], per_task: []
+};
+render(DATA);
+
+function pct(x){return x==null?'—':(x*100).toFixed(0)+'%';}
+function ppFmt(x){return x==null?'—':(x>0?'+':'')+x.toFixed(1)+' pp';}
+
+function render(D){
+  // KPI
+  const kpi=document.getElementById('kpi');
+  const our=D.our, off=D.official;
+  const cards=[
+    {n: off.with_skill+'%', l:'官方 with-skill', d:'DeepSeek V4 Pro · 任务自带技能', c:'accent-b'},
+    {n: off.no_skill+'%', l:'官方 no-skill', d:'DeepSeek V4 Pro · 无技能', c:''},
+    {n: our.library_mean==null?'—':pct(our.library_mean), l:'我们 · 库化自选', d:'全量 195 技能池', c:'accent-p'},
+    {n: our.delta_pp==null?'—':ppFmt(our.delta_pp), l:'库化 − 无技能', d:'同一 10 任务', c: (our.delta_pp>0?'accent-g':(our.delta_pp<0?'accent-r':''))},
+  ];
+  kpi.innerHTML=cards.map(c=>`<div class="card stat"><div class="n ${c.c}">${c.n}</div><div class="l">${c.l}</div><div class="d">${c.d}</div></div>`).join('');
+  document.getElementById('kpi-src').textContent = D.status==='PENDING'?'（实验运行中，占位）':'本次 10 任务实验';
+
+  // method kpi
+  const ls=D.library_stats;
+  document.getElementById('method-kpi').innerHTML=[
+    {n:ls.n_skill_md,l:'SKILL.md 总数',c:''},
+    {n:ls.n_unique,l:'去重后技能',c:'accent-b'},
+    {n:ls.n_collisions,l:'同名异体冲突',c:'accent-w'},
+    {n:(D.subset&&D.subset.length)||10,l:'子集任务',c:'accent-p'},
+  ].map(c=>`<div class="card stat"><div class="n ${c.c}">${c.n}</div><div class="l">${c.l}</div></div>`).join('');
+
+  // subset table
+  const st=document.querySelector('#subset-table tbody');
+  if(D.subset&&D.subset.length){
+    st.innerHTML=D.subset.map(t=>`<tr><td><code>${t.task}</code></td><td>${t.category}</td><td>${t.difficulty||'—'}</td><td>${t.n_native_skills}</td></tr>`).join('');
+  } else { st.innerHTML='<tr><td colspan="4" style="color:var(--dim)">子集注入后显示</td></tr>'; }
+
+  // results
+  if(D.per_task&&D.per_task.length){
+    document.getElementById('results-lead').innerHTML =
+      `库化平均 <b style="color:#dfe4f5">${pct(our.library_mean)}</b>，无技能 <b style="color:#dfe4f5">${pct(our.no_skill_mean)}</b>，
+       库化净变化 <b style="color:${our.delta_pp>=0?'var(--good)':'var(--bad)'}">${ppFmt(our.delta_pp)}</b>；
+       负增益任务 <b>${(D.negative_gain||[]).length}</b> 个。`;
+    const tb=document.querySelector('#results-table tbody');
+    tb.innerHTML=D.per_task.map(r=>{
+      const ns=r['no-skill'], lib=r['library'];
+      const rp=v=>v==null?'<span class="pill n">n/a</span>':(v>=1?'<span class="pill p">pass</span>':'<span class="pill f">fail</span>');
+      const dl=r.library_delta;
+      const dlc=dl==null?'var(--muted)':(dl>0?'var(--good)':(dl<0?'var(--bad)':'var(--muted)'));
+      const sk=(lib&&lib.n_skill_invocations!=null)?lib.n_skill_invocations:'—';
+      const tk=(lib&&lib.prompt_tokens!=null)?((lib.prompt_tokens+ (lib.completion_tokens||0))/1000).toFixed(1)+'k':'—';
+      return `<tr><td><code>${r.task}</code></td><td>${rp(ns&&ns.reward)}</td><td>${rp(lib&&lib.reward)}</td>
+        <td style="color:${dlc};font-family:var(--mono)">${dl==null?'—':(dl>0?'+':'')+dl}</td><td>${sk}</td><td>${tk}</td></tr>`;
+    }).join('');
+    drawTaskChart(D);
+    drawCompareChart(D);
+    document.getElementById('compare-note').innerHTML =
+      `我们(库化) vs 官方(with-skill)：<b style="color:${(our.library_vs_official_withskill_pp||0)>=0?'var(--good)':'var(--bad)'}">${ppFmt(our.library_vs_official_withskill_pp)}</b> ·
+       我们(no-skill) vs 官方(no-skill)：<b>${ppFmt(our.noskill_vs_official_pp)}</b>（后者接近 0 说明我们的复现与官方对齐）。
+       注意协议差异：官方=任务自带技能，我们=全量库化自选。`;
+  }
+  if(D.our&&D.our.cost_usd!=null){document.getElementById('foot-data').textContent='results/summary.json · 总花费 $'+D.our.cost_usd;}
+}
+
+function bar(x,y,w,h,fill,rx){return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx||4}" fill="${fill}"/>`;}
+function txt(x,y,s,fill,size,anchor,weight){return `<text x="${x}" y="${y}" fill="${fill||'#9aa0b4'}" font-size="${size||12}" text-anchor="${anchor||'start'}" font-family="var(--mono)" font-weight="${weight||400}">${s}</text>`;}
+
+function drawTaskChart(D){
+  const rows=D.per_task; const W=1040,rowH=34,H=rows.length*rowH+40;
+  const cx0=220, barW=W-cx0-70;
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" xmlns="http://www.w3.org/2000/svg">`;
+  s+=txt(cx0,18,'no-skill / library（pass=1）','#6b7186',12);
+  rows.forEach((r,i)=>{
+    const y=34+i*rowH; const ns=(r['no-skill']||{}).reward, lib=(r['library']||{}).reward;
+    s+=txt(10,y+13,r.task.length>26?r.task.slice(0,25)+'…':r.task,'#cdd3e6',12);
+    // baseline track
+    s+=bar(cx0,y+3,barW,8,'#1b1f2b',4);
+    s+=bar(cx0,y+15,barW,8,'#1b1f2b',4);
+    if(ns!=null) s+=bar(cx0,y+3,ns>=1?barW:6,8, ns>=1?'#5b8cff':'#2a2f40',4);
+    if(lib!=null) s+=bar(cx0,y+15,lib>=1?barW:6,8, lib>=1?'#8b5cff':'#2a2f40',4);
+  });
+  s+='</svg>'; document.getElementById('chart-tasks').innerHTML=s;
+}
+
+function drawCompareChart(D){
+  const off=D.official, our=D.our;
+  const items=[
+    {l:'官方 no-skill', v:off.no_skill, c:'#4a5170'},
+    {l:'我们 no-skill', v:our.no_skill_mean==null?null:our.no_skill_mean*100, c:'#9aa0b4'},
+    {l:'我们 库化自选', v:our.library_mean==null?null:our.library_mean*100, c:'#8b5cff'},
+    {l:'官方 with-skill', v:off.with_skill, c:'#5b8cff'},
+  ].filter(x=>x.v!=null&&!isNaN(x.v));
+  const W=1040,H=230,base=180,bw=150,gap=(W-items.length*bw)/(items.length+1);
+  const max=60;
+  let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" xmlns="http://www.w3.org/2000/svg">`;
+  [0,20,40,60].forEach(g=>{const y=base-(g/max)*150; s+=bar(0,y,W,1,'#1b1f2b',0); s+=txt(4,y-3,g+'%','#3a3f52',10);});
+  items.forEach((it,i)=>{
+    const x=gap+i*(bw+gap); const h=(it.v/max)*150; const y=base-h;
+    s+=bar(x,y,bw,h,it.c,6);
+    s+=txt(x+bw/2,y-8,it.v.toFixed(1)+'%','#e8eaf0',15,'middle',700);
+    s+=txt(x+bw/2,base+20,it.l,'#9aa0b4',12,'middle');
+  });
+  s+='</svg>'; document.getElementById('chart-compare').innerHTML=s;
+}
+</script>
+</body>
+</html>
