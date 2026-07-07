@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>开题报告:库化部署下智能体技能的组合干扰——测量、检验与组合感知加载</title>
+<style>
+  :root{
+    --accent:#7a1a1a;
+    --accent-light:#faf5f0;
+    --ink:#1c1c1c;
+    --gray:#666;
+    --line:#c9bfae;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"Times New Roman","SimSun","宋体","Songti SC","STSong",serif;
+    color:var(--ink);
+    background:#f5f2ec;
+    margin:0;
+    line-height:2.0;
+    font-size:16px;
+  }
+  .page{
+    max-width:1020px;
+    margin:0 auto;
+    background:#fffdf9;
+    box-shadow:0 0 24px rgba(60,40,20,.12);
+    padding:64px 78px 80px;
+  }
+  header.title-block{
+    text-align:center;
+    border-bottom:3px double var(--accent);
+    padding-bottom:28px;
+    margin-bottom:34px;
+  }
+  h1.main-title{font-size:27px;font-weight:bold;letter-spacing:1px;margin:0 0 10px;line-height:1.7;}
+  .subtitle{font-size:16.5px;color:var(--gray);margin:4px 0;}
+  .meta{font-size:14px;color:var(--gray);margin-top:14px;}
+  h2{
+    font-size:21px;font-weight:bold;color:var(--accent);
+    border-left:6px solid var(--accent);
+    padding-left:14px;margin:50px 0 18px;line-height:1.5;
+  }
+  h3{font-size:18px;font-weight:bold;margin:32px 0 12px;color:#2a2a2a;}
+  h4{font-size:16.5px;font-weight:bold;margin:22px 0 8px;color:#3a3a3a;}
+  p{margin:0 0 14px;text-align:justify;}
+  p.indent{text-indent:2em;}
+  .abstract-box{
+    background:var(--accent-light);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:22px 28px;margin:0 0 8px;font-size:15.5px;
+  }
+  .abstract-box .abs-title{font-weight:bold;color:var(--accent);letter-spacing:6px;text-align:center;display:block;margin-bottom:10px;font-size:17px;}
+  .kw{margin-top:10px;font-size:14.5px;}
+  .kw b{color:var(--accent);}
+  nav.toc{
+    background:#faf8f2;border:1px solid var(--line);border-radius:4px;
+    padding:18px 30px;margin:26px 0 10px;font-size:15px;columns:2;column-gap:44px;
+  }
+  nav.toc .toc-title{font-weight:bold;font-size:16.5px;column-span:all;text-align:center;letter-spacing:8px;margin-bottom:8px;color:var(--accent);}
+  nav.toc a{color:var(--ink);text-decoration:none;display:block;padding:2.5px 0;border-bottom:1px dotted #ddd2be;}
+  nav.toc a:hover{color:var(--accent);}
+  table{border-collapse:collapse;width:100%;margin:20px 0 26px;font-size:14px;line-height:1.75;}
+  caption{caption-side:top;font-weight:bold;font-size:15px;padding-bottom:10px;color:var(--accent);}
+  th,td{border:1px solid #b9ad97;padding:8px 10px;vertical-align:top;text-align:left;}
+  th{background:#efe9dc;font-weight:bold;}
+  tr:nth-child(even) td{background:#faf8f3;}
+  .table-scroll{overflow-x:auto;}
+  .exp-card{
+    border:1px solid var(--line);border-top:4px solid var(--accent);
+    border-radius:4px;background:#fffefb;
+    padding:20px 28px 14px;margin:26px 0;
+    box-shadow:0 2px 10px rgba(80,60,30,.06);
+  }
+  .exp-card h4{margin:0 0 10px;color:var(--accent);font-size:17px;}
+  .exp-card .field{margin:0 0 8px;}
+  .exp-card .field b{color:#5a4a2a;}
+  .hyp{
+    background:var(--accent-light);border:1px dashed var(--accent);border-radius:4px;
+    padding:12px 18px;margin:14px 0;font-size:15.5px;
+  }
+  .hyp b{color:var(--accent);}
+  .warn{
+    background:#f4f0e6;border-left:4px solid #b08d3c;
+    padding:10px 16px;margin:14px 0;font-size:15px;
+  }
+  .warn b:first-child{color:#8a6414;}
+  .stage-flow{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:22px 0;}
+  .stage{background:#fff;border:1.5px solid var(--accent);border-radius:6px;
+    padding:10px 14px;font-size:14.5px;text-align:center;min-width:150px;flex:1;}
+  .stage b{display:block;color:var(--accent);font-size:15.5px;margin-bottom:2px;}
+  .stage-arrow{align-self:center;color:var(--accent);font-size:20px;font-weight:bold;}
+  .ref-list{font-size:14.5px;line-height:1.9;}
+  .ref-list li{margin-bottom:9px;}
+  .ref-list a{color:#274c77;text-decoration:none;word-break:break-all;}
+  .ref-list a:hover{text-decoration:underline;}
+  a.cite{color:#274c77;text-decoration:none;font-size:0.82em;vertical-align:super;}
+  a.cite:hover{text-decoration:underline;}
+  code{font-family:"Courier New",monospace;font-size:14px;background:#f3efe6;padding:1px 5px;border-radius:3px;}
+  .footnote{font-size:13.5px;color:var(--gray);border-top:1px solid var(--line);margin-top:46px;padding-top:14px;line-height:1.8;}
+  .hl{color:var(--accent);font-weight:bold;}
+  @media (max-width:760px){.page{padding:30px 20px;}nav.toc{columns:1;}h1.main-title{font-size:22px;}}
+  @media print{body{background:#fff;}.page{box-shadow:none;padding:10mm 12mm;}}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="title-block">
+  <h1 class="main-title">库化部署下智能体技能的组合干扰:<br>测量、检验与组合感知加载</h1>
+  <div class="subtitle">Compositional Interference of Agent Skills under Library Deployment:<br>Measurement, Verification, and Composition-Aware Loading</div>
+  <div class="subtitle" style="font-size:14.5px;margin-top:8px;">开题报告(研究计划,未实施)</div>
+  <div class="meta">撰写:van &nbsp;|&nbsp; 2026 年 7 月 6 日 &nbsp;|&nbsp; 拟投:NeurIPS / ICLR(Agent 方向)或 ACL / EMNLP,备选 AAAI</div>
+</header>
+
+<div class="abstract-box">
+  <span class="abs-title">研 究 概 要</span>
+  <p class="indent" style="margin-bottom:6px;">技能(Agent Skill)是注入给 LLM 智能体的可复用过程知识包。2026 年以来的自动技能研究(CoEvoSkills<a class="cite" href="#ref4">[4]</a>、SkillGen<a class="cite" href="#ref5">[5]</a>、SAPO<a class="cite" href="#ref6">[6]</a>、SkillOpt<a class="cite" href="#ref8">[8]</a>等)已确立"使用前先检验"的方法路线,但所有检验都以<b>单个技能</b>为单位:在"其余上下文固定"的条件下测量一个技能的效果。真实部署却是<b>库化</b>的——用户安装几十至上百个来源不同的技能,系统靠约 30 token 的元数据简介检索、注入多个技能。多技能共存时的相互干扰(指令矛盾、功能冗余、上下文稀释、顺序敏感)没有任何工作直接测量或处理。本提案的预研已核实:公开基准 SkillsBench<a class="cite" href="#ref1">[1]</a> 的 190 个技能全部为任务专属、无跨任务共用,评测协议中不存在库化检索环节;而一旦将这些技能合并为一个库,跨任务的近重复技能立即产生真实的选择冲突(如 OpenCV 逐帧取图与 FFmpeg 关键帧提取两个技能的触发描述高度重叠、输出约定互不兼容)。本研究拟:(一)构造首个库化技能评测协议 <b>SkillsBench-Lib</b>;(二)完成首个技能<b>组合干扰的系统测量</b>(干扰类型学、两两交互矩阵、方差分解);(三)提出<b>组合感知加载方法 CASL</b>(静态筛查 → 定向验证 → 冲突图子集选择,附整组验证与消融修复的冷启动变体),目标是消除库化损失、修复负增益案例。全部实验基于确定性判分器,统计方案、预算与风险预案见正文。</p>
+  <p class="kw"><b>关键词:</b>Agent Skills;技能组合;干扰测量;技能验证;技能检索;SkillsBench</p>
+</div>
+
+<nav class="toc">
+  <div class="toc-title">目 录</div>
+  <a href="#sec1">1&nbsp;&nbsp;研究背景与问题提出</a>
+  <a href="#sec2">2&nbsp;&nbsp;预研证据(已完成的数据核实)</a>
+  <a href="#sec3">3&nbsp;&nbsp;研究问题与假设</a>
+  <a href="#sec4">4&nbsp;&nbsp;核心定义与形式化</a>
+  <a href="#sec5">5&nbsp;&nbsp;研究内容(三部分)</a>
+  <a href="#sec6">6&nbsp;&nbsp;实验设计与具体步骤(E0–E7)</a>
+  <a href="#sec7">7&nbsp;&nbsp;统计方案、预算与可复现性</a>
+  <a href="#sec8">8&nbsp;&nbsp;预期结果与贡献</a>
+  <a href="#sec9">9&nbsp;&nbsp;风险分析与备选方案</a>
+  <a href="#sec10">10&nbsp;&nbsp;与现有工作的区别</a>
+  <a href="#sec11">11&nbsp;&nbsp;时间计划</a>
+  <a href="#refs">参考文献</a>
+</nav>
+
+<h2 id="sec1">1&nbsp;&nbsp;研究背景与问题提出</h2>
+
+<p class="indent">技能是一组文件(说明文档 SKILL.md、脚本、参考资料),在推理阶段注入给智能体,提供完成某类任务的过程知识,不修改模型参数<a class="cite" href="#ref10">[10]</a><a class="cite" href="#ref11">[11]</a>。SkillsBench 用 7,308 次任务执行证明了两个基本事实:人工编写的技能平均将 84 个任务的通过率提高 16.2 个百分点;而让模型一次性自写技能平均没有收益<a class="cite" href="#ref1">[1]</a>。由此,2026 年的方法研究(CoEvoSkills<a class="cite" href="#ref4">[4]</a>、SkillGen<a class="cite" href="#ref5">[5]</a>、SAPO<a class="cite" href="#ref6">[6]</a>、SkillOpt<a class="cite" href="#ref8">[8]</a>、SkillsVote<a class="cite" href="#ref7">[7]</a>)形成了共同路线:在技能生成与使用之间插入检验环节。</p>
+
+<p class="indent">但现有全部检验机制都以<b>单个技能</b>为单位。SkillGen 的净效应 Δ(s) 在"其余上下文固定"的条件下定义<a class="cite" href="#ref5">[5]</a>;SAPO 的边际效用测的是"在已检索技能集合上再加一个候选"<a class="cite" href="#ref6">[6]</a>;CoEvoSkills 验证的是一个技能包<a class="cite" href="#ref4">[4]</a>;SkillOpt 优化的是一份技能文档<a class="cite" href="#ref8">[8]</a>。真实部署形态与此不同:按 Anthropic 的渐进式披露规范,每个技能仅以约 30 token 的名称与简介常驻系统提示,由模型按语义匹配触发加载<a class="cite" href="#ref10">[10]</a>;用户(例如 Claude Code 用户)会安装几十至上百个来源各异的技能,任务执行时多个技能同时或先后进入上下文。此时可能发生四类干扰:两份技能给出矛盾指示;两个技能功能重叠、约定不同;无关技能占用上下文、削弱对关键指令的遵循;注入顺序影响行为。</p>
+
+<p class="indent">已有间接证据表明干扰真实存在:SkillsBench 按任务配备的技能数分层统计,配 2–3 个技能的任务平均增益 +18.6pp,配 4 个以上的任务骤降至 +5.9pp,作者将其归因于"过量技能内容造成认知负担或指导冲突"(原文:excessive Skills content creates cognitive overhead or conflicting guidance)<a class="cite" href="#ref1">[1]</a>;84 个任务中有 16 个配技能后成绩反而下降<a class="cite" href="#ref1">[1]</a>。但这些只是现象级观察:干扰从未被直接测量,更没有针对性的处理方法。<b>本研究要回答的问题是:库化部署下技能之间的干扰有多大、是什么结构、能否被低成本地检测与消除。</b></p>
+
+<h2 id="sec2">2&nbsp;&nbsp;预研证据(已完成的数据核实)</h2>
+
+<p class="indent">为确认选题前提,我们已对 SkillsBench 官方仓库<a class="cite" href="#ref2">[2]</a>(v1.1,87 个任务)与其官网技能清单页<a class="cite" href="#ref3">[3]</a>做了完整统计与原文抽查(2026 年 7 月 5 日,main 分支)。四项结果如下。</p>
+
+<p class="indent"><b>预研一:技能全部为任务专属,基准中不存在库化环节。</b>官网清单收录 190 个技能、分布于 74 个任务,目录结构为 <code>tasks/&lt;任务&gt;/environment/skills/&lt;技能&gt;/</code>;190 个技能中<b>没有任何一个被两个任务共用</b>。评测时每个任务的容器只安装自己的技能,不涉及从大库中检索。这意味着:在原生协议下研究"多来源技能冲突"缺少天然靶子——这正是需要构造新协议(第 5.1 节)的直接理由。</p>
+
+<table>
+  <caption>表 1&nbsp;&nbsp;预研统计:每任务配备技能数的分布(数据来源:skillsbench.ai 技能清单页<a class="cite" href="#ref3">[3]</a>,2026-07-05)</caption>
+  <thead><tr><th>每任务技能数</th><th>1 个</th><th>2 个</th><th>3 个</th><th>4 个</th><th>5 个</th><th>6 个</th><th>7 个</th></tr></thead>
+  <tbody>
+    <tr><td><b>任务数</b></td><td>24</td><td>17</td><td>16</td><td>8</td><td>3</td><td>5</td><td>1</td></tr>
+    <tr><td><b>占比</b></td><td>32.4%</td><td colspan="2">44.6%(2–3 个)</td><td colspan="4">23.0%(4 个及以上)</td></tr>
+  </tbody>
+</table>
+
+<p class="indent"><b>预研二:技能是流水线部件,不是完整解法,组合使用是基准内部的常态。</b>三分之二的任务(50/74)配 2 个以上技能。抽查 video-silence-remover 任务(7 个技能)的 silence-detector 原文,其中明确写有 "Requires energy data from <b>energy-calculator</b> skill" 与 "Output format compatible with <b>segment-combiner</b>"<a class="cite" href="#ref12">[12]</a>——技能之间存在显式的数据依赖链,单个技能无法完成任务。此外 SkillsBench 有泄题审查(技能中禁止包含任务专属答案)<a class="cite" href="#ref1">[1]</a>,从制度上排除了"单技能即完整解"的可能。</p>
+
+<p class="indent"><b>预研三:跨任务近重复技能真实存在,库化后即产生选择冲突。</b>逐一对比 190 个技能的名称与简介后抽查原文,确认了多组功能重叠、约定互不兼容的技能对,举证如下:jpg-ocr-stat 任务的 <code>video-frame-extraction</code>(用 OpenCV 逐帧/按间隔取图,要求输出一套特定 JSON 模式)<a class="cite" href="#ref14">[14]</a> 与 mario-coin-counting 任务的 <code>ffmpeg-keyframe-extraction</code>(用 FFmpeg 命令行取 I 帧,输出文件序列)<a class="cite" href="#ref13">[13]</a>,两者的触发描述均为"从视频提取帧用于分析",但工具链与输出约定完全不同;类似的还有两个网络抓包分析技能(<code>pcap-analysis</code> 与 <code>pcap-triage-tshark</code>,分属两个安全任务)、<code>pdf</code> 与 <code>pdf-editing</code>、<code>image-ocr</code> 与 <code>openai-vision</code>,以及四个 <code>senior-*</code> 角色类技能。若这些技能同在一个库中、靠简介做路由,检索歧义与指导冲突不可避免。</p>
+
+<p class="indent"><b>预研四:干扰的量级有公开数据支撑。</b>除第 1 节引述的分层结果(4+ 技能仅 +5.9pp)与 16/84 负增益任务外,SkillsBench 表 6 还显示"面面俱到型(Comprehensive)"技能文档的平均增益为 <b>−2.9pp</b>(N=140),即内容过量本身就能造成净伤害<a class="cite" href="#ref1">[1]</a>。</p>
+
+<div class="warn"><b>预研结论:</b>选题前提成立,但主实验必须建立在"库化"设置上,而非任务自备的策划集合(后者按设计互补,天然硬冲突少)。这一修正来自预研一与预研三,决定了第 5.1 节的基准构造方案。</div>
+
+<h2 id="sec3">3&nbsp;&nbsp;研究问题与假设</h2>
+
+<p class="indent">研究问题(RQ)与对应假设(H)如下。每条假设都给出依据;涉及幅度的表述均为方向性预期,以实测为准。</p>
+
+<p class="indent"><b>RQ1(现象):</b>与"任务自备技能"相比,库化检索部署损失多少性能?负增益任务是否增多?<br>
+<span class="hyp" style="display:block;"><b>H1:</b>库化 top-k 注入显著低于任务自备技能(oracle),且 k 增大时增益先升后降。依据:检索误差 + SkillsBench 已观测的 4+ 技能增益骤降<a class="cite" href="#ref1">[1]</a>。</span></p>
+
+<p class="indent"><b>RQ2(结构):</b>组合效果能否被"单技能效应之和 + 两两交互项之和"近似?干扰的类型分布如何?<br>
+<span class="hyp" style="display:block;"><b>H2:</b>一阶 + 二阶模型能解释组合效果的大部分方差;显著负交互集中于近重复对与矛盾指令对,数量稀疏。依据:预研三发现的重叠对是具体且有限的;特征交互分析在相邻领域(特征选择、集成学习)通常以低阶项为主。</span></p>
+
+<p class="indent"><b>RQ3(方法):</b>组合感知的加载决策能否消除库化损失、修复负增益任务?<br>
+<span class="hyp" style="display:block;"><b>H3:</b>CASL 相对 top-k 直接注入有正增益,负增益任务数减少;上界为 oracle 条件。依据:若 H2 成立,则冲突图子集选择在结构上可行;SkillsBench 的"2–3 个技能最优"提示限制加载规模本身即有收益<a class="cite" href="#ref1">[1]</a>。</span></p>
+
+<p class="indent"><b>RQ4(检测):</b>对人工注入的已知干扰(矛盾改写、近重复、无关填充),检测的查准率与查全率如何?<br>
+<span class="hyp" style="display:block;"><b>H4:</b>静态筛查(文本层)对矛盾与近重复的召回较高,但会产生误报;叠加定向执行验证后查准率显著提升。依据:矛盾与重复在文本层有可判特征;而"是否真的伤害成绩"必须由执行确认——这正是两阶段设计的动机。</span></p>
+
+<p class="indent"><b>RQ5(迁移,次要):</b>在模型 A 上测得的交互矩阵,换到模型 B 上是否仍能指导加载决策?<br>
+<span class="hyp" style="display:block;"><b>H5:</b>部分保留。依据:单技能的跨模型可迁移已被多篇工作证实<a class="cite" href="#ref4">[4]</a><a class="cite" href="#ref5">[5]</a><a class="cite" href="#ref8">[8]</a>;交互是否同样可迁移是开放问题,本研究首次测量。</span></p>
+
+<h2 id="sec4">4&nbsp;&nbsp;核心定义与形式化</h2>
+
+<p class="indent">设技能库 L = {s₁, …, sₙ},任务分布 D,判分器为确定性通过/失败函数。对技能子集 S′ ⊆ L,定义<b>组合净效应</b>:</p>
+<p style="text-align:center;">Δ(S′) = E<sub>x∼D</sub>[ Pass(x | 注入 S′) − Pass(x | 不注入) ]</p>
+<p class="indent">即同一批任务带与不带 S′ 的通过率之差(配对估计)。单技能效应 Δ(sᵢ) 是 |S′|=1 的特例,与 SkillGen 的干预式定义一致<a class="cite" href="#ref5">[5]</a>。定义<b>两两交互项</b>:</p>
+<p style="text-align:center;">I(sᵢ, sⱼ) = Δ({sᵢ, sⱼ}) − Δ(sᵢ) − Δ(sⱼ)</p>
+<p class="indent">I 显著为负表示冲突或冗余,显著为正表示互补(如预研二中的流水线部件)。二阶近似假设(待 RQ2 检验):Δ(S′) ≈ Σᵢ Δ(sᵢ) + Σᵢ<ⱼ I(sᵢ, sⱼ)。若成立,加载决策化为图上的子集选择问题:以技能为节点、显著交互为带权边,求 |S′| ≤ k 约束下预测效应最大的子集(交互稀疏时贪心加局部搜索即可,附近似性质讨论)。</p>
+
+<p class="indent"><b>干扰类型学</b>(用于 RQ2 的归类,判定规则在 E2 中操作化):(a) <b>硬冲突</b>——两技能对同一决策给出不相容指示;(b) <b>冗余</b>——功能重叠、约定不同,导致工具链或输出格式分叉;(c) <b>稀释</b>——无关内容占用上下文,降低关键指令遵循度(与技能内容无逻辑矛盾);(d) <b>顺序敏感</b>——同一子集不同注入顺序产生显著差异。</p>
+
+<h2 id="sec5">5&nbsp;&nbsp;研究内容(三部分)</h2>
+
+<h3>5.1&nbsp;&nbsp;第一部分:SkillsBench-Lib 库化评测协议</h3>
+<p class="indent">在不改动 SkillsBench 任务、容器与判分器的前提下,把评测协议从"任务自备技能"改为"从统一技能库检索":将全部 190 个技能合并为一个库;每个技能以名称 + 简介建立嵌入索引(模拟渐进式披露的元数据层<a class="cite" href="#ref10">[10]</a>);任务执行前由检索器选出 k 个技能安装进容器。提供两种检索器:(a) 静态语义 top-k(部署中最常见);(b) agentic 检索(参照 SkillsVote 的做法,由一个独立智能体用文件检索命令阅读候选技能正文后挑选<a class="cite" href="#ref7">[7]</a>)。同时保留"oracle"条件(注入任务自备技能)作为上界参照。该协议连同检索日志全部开源,构成贡献之一。</p>
+
+<h3>5.2&nbsp;&nbsp;第二部分:组合干扰的系统测量</h3>
+<p class="indent">测量分三层。第一层,单技能效应 Δ(sᵢ):仅对"至少被检索命中一次"的技能,在其命中的任务上配对实测。第二层,两两交互 I(sᵢ,sⱼ):不做全对实测(C(190,2) ≈ 18,000 对不可行),只测三类抽样对——在任一任务 top-5 检索结果中共同出现过的对(实际会同时进上下文的对)、预研标注的近重复对、以及等量的随机对照对(用于估计交互的本底分布)。第三层,方差分解:随机抽取若干个大小 2–5 的子集实测 Δ(S′),分别用一阶模型与一阶 + 二阶模型拟合,报告决定系数,直接回答 RQ2 的"二阶近似够不够"。</p>
+
+<h3>5.3&nbsp;&nbsp;第三部分:组合感知加载方法 CASL</h3>
+<div class="stage-flow">
+  <div class="stage"><b>① 静态筛查</b>嵌入相似度 + LLM 成对一致性判断,标出可疑技能对(零执行成本)</div>
+  <div class="stage-arrow">→</div>
+  <div class="stage"><b>② 定向验证</b>只对可疑对做配对执行,确认交互项的符号与大小</div>
+  <div class="stage-arrow">→</div>
+  <div class="stage"><b>③ 图上选择</b>检索 top-k 候选 → 按"单技能效应 + 交互项"选出无冲突子集(|S′|≤3)</div>
+  <div class="stage-arrow">→</div>
+  <div class="stage"><b>④ 注入执行</b>被剔除的冲突对二选一;决策查表完成,运行时零额外执行</div>
+</div>
+<p class="indent">要点说明。其一,①→② 的两阶段设计把交互实测成本从全对压缩到可疑对,是方法的成本核心;①的一致性判断提示词要求模型比较两份技能正文,回答"对同一任务是否会给出矛盾指示/是否覆盖同一功能",输出结构化标签。其二,③ 的规模约束 |S′|≤3 直接采用 SkillsBench 的经验最优区间<a class="cite" href="#ref1">[1]</a>,并作为消融变量。其三,交互矩阵是库的属性、离线建成,任务到来时只做查表与子集选择,不增加推理成本——与 SkillOpt"部署零额外调用"的原则一致<a class="cite" href="#ref8">[8]</a>。其四,提供<b>冷启动变体 CASL-R</b>(无交互矩阵时使用):把检索出的整组技能当作一个单位做一次配对验证,变差则贪心消融(每次剔除一个技能重测)定位元凶后剔除——该变体每任务成本高,但不依赖离线测量,两者构成成本-精度的两端。</p>
+
+<h2 id="sec6">6&nbsp;&nbsp;实验设计与具体步骤(E0–E7)</h2>
+
+<div class="exp-card">
+  <h4>E0&nbsp;&nbsp;基准构造与冻结</h4>
+  <p class="field"><b>步骤:</b>(1) 拉取官方仓库并锁定版本(git tag v1.1 / 固定 commit)<a class="cite" href="#ref2">[2]</a>,核对 registry.json<a class="cite" href="#ref15">[15]</a>;(2) 抽取全部技能目录,建立"任务→技能"真值归属表;(3) 对 190 个技能的名称 + 简介做嵌入,人工复核相似度最高的前 50 对,标注近重复对清单(预研三已给出候选);(4) 实现两种检索器与注入脚本;(5) 试运行 5 个任务验证容器、判分器与注入链路无损。</p>
+  <p class="field"><b>产出:</b>SkillsBench-Lib 基准包(库 + 索引 + 检索器 + 归属表 + 近重复标注)。</p>
+  <p class="field"><b>通过标准:</b>oracle 条件复现原论文的分层结果(表 5 量级一致),证明协议改造未破坏基准。</p>
+</div>
+
+<div class="exp-card">
+  <h4>E1&nbsp;&nbsp;现象刻画:库化损失有多大(RQ1 / H1)</h4>
+  <p class="field"><b>条件矩阵:</b>(a) 无技能;(b) oracle(任务自备技能,上界);(c) 元数据全挂——190 条简介全部常驻、由模型自行触发加载(最接近 Claude Code 真实形态);(d) 检索 top-k 强制注入,k ∈ {1, 3, 5, 10};(e) 随机 k(对照,分离"检索质量"与"数量效应")。</p>
+  <p class="field"><b>模型与环境:</b>2–3 个模型(一强一弱,如 Claude Opus 级与 Haiku 级,以立项时可用版本为准)× 2 种执行环境(Claude Code、Codex),对齐文献 <a class="cite" href="#ref4">[4]</a><a class="cite" href="#ref8">[8]</a> 的设置以便直接比较。</p>
+  <p class="field"><b>指标:</b>平均通过率;负增益任务数;检索召回(top-k 是否含任务自备技能);上下文 token 开销。每条件每任务 3 次重复。</p>
+  <p class="field"><b>关键解耦设计:</b>增设条件 (f) "oracle + 干扰":注入任务自备技能的同时,再强制加入 m 个来自其他任务的重叠技能(m ∈ {1,2,4})。该条件把"检索没找对"(检索误差)与"找对了但被干扰"(组合干扰)分离——若 (f) 相对 (b) 显著下降,则损失确由干扰造成,而非检索质量。这是全部后续实验的因果基础。</p>
+</div>
+
+<div class="exp-card">
+  <h4>E2&nbsp;&nbsp;交互测量与类型学(RQ2 / H2)</h4>
+  <p class="field"><b>抽样:</b>三组技能对——共同被检索对(E1 日志中任一任务 top-5 共现的对,预计 200–400 对)、预研近重复对(约 20–40 对)、随机对照对(与前两组等量)。</p>
+  <p class="field"><b>测量:</b>对每个抽样对 (sᵢ,sⱼ) 选取其共现任务,配对实测 Δ({sᵢ,sⱼ});Δ(sᵢ)、Δ(sⱼ) 单独实测并在所有涉及该技能的对之间复用。每个量 5 次重复。</p>
+  <p class="field"><b>类型判定(操作化):</b>硬冲突——负交互 + LLM 一致性判断标记矛盾 + 轨迹中可定位到相互抵触的执行片段;冗余——负交互 + 近重复标注;稀释——负交互但两技能内容无关(随机对照组中的负交互归此类);顺序敏感——对同一对交换注入顺序,差异超过重复间波动。</p>
+  <p class="field"><b>方差分解:</b>随机抽 100 个大小 2–5 的子集实测 Δ(S′),以一阶、一阶+二阶两个模型拟合,报告决定系数与残差分布。</p>
+  <p class="field"><b>产出:</b>稀疏交互矩阵、干扰类型分布表、"二阶近似是否充分"的定量结论。此部分独立成文价值最高(即使后续方法失败,测量结果本身可发表)。</p>
+</div>
+
+<div class="exp-card">
+  <h4>E3&nbsp;&nbsp;真值注入实验:检测能力评估(RQ4 / H4)</h4>
+  <p class="field"><b>构造三类已知干扰,每类 ≥20 例:</b>(1) 矛盾改写——复制某任务自备技能,反转其关键步骤(如"先运行测试再修改"改为"直接修改后提交"),与原版一同注入;(2) 近重复注入——将预研标注的跨任务重叠技能强制加入检索结果;(3) 无关填充——随机加入其他领域技能。注入均在 oracle 条件上叠加(承接 E1-f 的解耦逻辑)。</p>
+  <p class="field"><b>指标:</b>端到端伤害(注入后通过率下降幅度,确认干扰"有毒");CASL 静态筛查的查准/查全;叠加定向验证后的查准/查全;修复率(方法过滤后恢复的分数占伤害的比例)。</p>
+  <p class="field"><b>意义:</b>这是唯一有真值标签的实验,给出方法能力的硬指标;三类干扰分别对应类型学的 (a)(b)(c)。</p>
+</div>
+
+<div class="exp-card">
+  <h4>E4&nbsp;&nbsp;端到端方法对比(RQ3 / H3)</h4>
+  <p class="field"><b>对比方法:</b>无技能;oracle(上界);top-k 直接注入(k=5);随机 k;单最优技能(argmax Δ(sᵢ));限额 top-3(只限制数量、不看交互——用于分离"少装"与"装对"两种收益);agentic 推荐(SkillsVote 式<a class="cite" href="#ref7">[7]</a>);<b>CASL</b>;<b>CASL-R</b>(冷启动变体)。</p>
+  <p class="field"><b>指标:</b>平均通过率;负增益任务数;E3 注入场景下的恢复率;决策成本(离线执行次数、每任务额外 LLM 调用数、上下文 token)。</p>
+  <p class="field"><b>判定:</b>主张成立的条件为——CASL 显著高于 top-k 与限额 top-3,负增益任务数下降,且离线成本在第 7 节预算内。</p>
+</div>
+
+<div class="exp-card">
+  <h4>E5&nbsp;&nbsp;方法消融</h4>
+  <p class="field">(1) 去掉静态筛查(全部共现对实测),报告成本倍数与性能差,验证两阶段设计的必要性;(2) 去掉交互项(仅按单技能效应选),验证"交互信息"的边际价值;(3) |S′| 约束取 1/2/3/5,与 SkillsBench 分层结果<a class="cite" href="#ref1">[1]</a>对照;(4) 一致性判断提示词的变体敏感性。</p>
+</div>
+
+<div class="exp-card">
+  <h4>E6&nbsp;&nbsp;组内组合敏感性(辅助研究)</h4>
+  <p class="field">在两个多部件任务上做受控消融:video-silence-remover(7 个部件,含显式依赖链 energy-calculator → silence-detector → segment-combiner<a class="cite" href="#ref12">[12]</a>)与 travel-planning(6 个 search-* 部件)。条件:完整集 / 去掉一个部件 / 用近重复替换一个部件(如以 ffmpeg-keyframe-extraction<a class="cite" href="#ref13">[13]</a> 替换管线内取帧部件)。目的:验证"部件缺失"(互补性损失)与"部件被替换"(冗余冲突)两种失败模式可被 Δ 与轨迹证据区分,为类型学提供机理级案例。</p>
+</div>
+
+<div class="exp-card">
+  <h4>E7&nbsp;&nbsp;交互的跨模型迁移(RQ5 / H5,次要)</h4>
+  <p class="field">在模型 A 上建交互矩阵,直接用于模型 B 的 CASL 决策,与 B 上自建矩阵对比,报告增益保留比例。结论无论正负都有价值:正——交互是技能对的内在属性,库级测量一劳永逸;负——交互依赖模型,需按模型维护,这本身是重要的部署知识。</p>
+</div>
+
+<h2 id="sec7">7&nbsp;&nbsp;统计方案、预算与可复现性</h2>
+
+<p class="indent"><b>统计方案。</b>判分为确定性二值结果,所有对比均为同任务配对设计:比例的区间估计用 Wilson 方法;配对二值差异用 McNemar 检验;交互项的显著性用任务层 bootstrap(重抽任务,而非重抽执行),避免把任务间异质性误判为交互;多重比较(数百个交互对)用 Benjamini–Hochberg 控制错误发现率。只对显著交互建边,其余按零处理——这同时是 H2"交互稀疏"的检验。</p>
+
+<p class="indent"><b>执行预算。</b>下表按每次任务执行为单位估算(单模型单环境;3 模型-环境组合按比例放大,可用分层抽样任务子集控制)。总量与 SkillsBench 原论文的 7,308 条轨迹同量级,其附录含 token 成本报告可作换算参照<a class="cite" href="#ref1">[1]</a>,可行性有先例。</p>
+
+<table>
+  <caption>表 2&nbsp;&nbsp;执行预算估算(单模型-环境组合)</caption>
+  <thead><tr><th>实验</th><th>估算方式</th><th>执行次数(约)</th></tr></thead>
+  <tbody>
+    <tr><td>E1 现象刻画</td><td>84 任务 × 8 条件 × 3 重复</td><td>2,000</td></tr>
+    <tr><td>E2 单技能效应</td><td>190 技能 × 命中任务 × 5 重复(带/不带配对,不带者跨条件复用)</td><td>1,200</td></tr>
+    <tr><td>E2 交互对</td><td>约 500 对 × 5 重复(单技能项复用)</td><td>2,500</td></tr>
+    <tr><td>E2 方差分解</td><td>100 子集 × 5 重复</td><td>500</td></tr>
+    <tr><td>E3 注入</td><td>60 例 × 2 条件 × 3 重复</td><td>360</td></tr>
+    <tr><td>E4–E7</td><td>方法对比、消融、迁移</td><td>1,500</td></tr>
+    <tr><td><b>合计</b></td><td></td><td><b>约 8,000</b></td></tr>
+  </tbody>
+</table>
+
+<p class="indent"><b>可复现性。</b>固定基准 commit、检索器种子与提示词版本;发布全部检索日志、交互矩阵、注入案例与判分输出;遵循基准的"数据不得入训练语料"金丝雀声明<a class="cite" href="#ref3">[3]</a>。</p>
+
+<h2 id="sec8">8&nbsp;&nbsp;预期结果与贡献</h2>
+
+<p class="indent">预期四项贡献。<b>C1(协议):</b>SkillsBench-Lib——首个库化技能评测协议,把"检索 + 多技能注入"这一真实部署形态纳入公开评测,附解耦检索误差与组合干扰的条件设计(E1-f)。<b>C2(测量):</b>首个技能组合干扰的系统测量:干扰类型学、稀疏交互矩阵、二阶近似的方差解释率——回答"干扰是否存在、多大、什么结构"这一领域悬而未决的问题(SkillsBench 仅有现象级分层<a class="cite" href="#ref1">[1]</a>)。<b>C3(方法):</b>CASL 及其冷启动变体——首个组合感知的技能加载方法,离线建矩阵、运行时查表,部署零额外执行。<b>C4(资源):</b>开源基准包、交互矩阵与 60 例真值注入套件,供后续检测方法作为标准靶子。</p>
+
+<p class="indent">论文叙事按"测量 → 机理 → 方法"组织:E1 确立问题规模,E2/E3/E6 给出结构与机理,E4/E5/E7 交付方法与边界。这样即便方法部分增益有限,前半部分的测量贡献仍然完整(见 R1 预案)。</p>
+
+<h2 id="sec9">9&nbsp;&nbsp;风险分析与备选方案</h2>
+
+<div class="warn"><b>R1(负结果风险):交互普遍不显著,库化损失主要由检索误差与稀释解释。</b>概率存在(策划技能整体质量高)。预案:论文转型为测量型工作,主张改为"库化部署的主要风险是检索与规模,单技能验证在当前生态下近似成立"——E1/E2/E3 的数据足以支撑,且该结论同样回答了没人回答过的问题;方法部分降级为"限额 + 去重"的轻量建议。判断节点设在 E2 完成时(第 8 周),不影响总进度。</div>
+
+<div class="warn"><b>R2(成本风险):8,000 次执行超出算力预算。</b>预案:按域分层抽样 40 个任务(保持 11 个领域覆盖);重复数从 5 降到 3(牺牲交互项的检出功效,优先保近重复对);模型-环境组合从 3 个减为 2 个主组合 + 1 个小规模复核。</div>
+
+<div class="warn"><b>R3(归因风险):库化损失全部来自检索没找对,与组合无关。</b>已在设计上预防:E1-f("oracle + 干扰")与 E3(真值注入)都在检索正确的前提下施加干扰,两组实验单独构成组合干扰的证据链,不依赖检索器质量。</div>
+
+<div class="warn"><b>R4(工程风险):基准版本更新、模型版本下线。</b>预案:锁定 git commit 与 registry 摘要<a class="cite" href="#ref15">[15]</a>;模型写明版本号并在附录报告替换模型的复核结果。</div>
+
+<h2 id="sec10">10&nbsp;&nbsp;与现有工作的区别</h2>
+
+<table>
+  <caption>表 3&nbsp;&nbsp;定位对比:检验单位与部署形态</caption>
+  <thead><tr><th>工作</th><th>检验单位</th><th>是否建模技能间交互</th><th>部署形态</th><th>与本研究的关系</th></tr></thead>
+  <tbody>
+    <tr><td>SkillGen<a class="cite" href="#ref5">[5]</a></td><td>单技能(干预净效应)</td><td>否</td><td>单技能注入</td><td>Δ 定义直接沿用并推广到子集</td></tr>
+    <tr><td>SAPO<a class="cite" href="#ref6">[6]</a></td><td>单技能(条件于已检索集合的边际效用)</td><td>隐含条件化,不估计交互本身</td><td>库 + 检索(训练内)</td><td>其边际效用是 I 的单侧特例</td></tr>
+    <tr><td>CoEvoSkills<a class="cite" href="#ref4">[4]</a></td><td>单技能包</td><td>否</td><td>单任务</td><td>提供 SkillsBench 上的可比数字</td></tr>
+    <tr><td>SkillOpt<a class="cite" href="#ref8">[8]</a></td><td>单技能文档</td><td>否</td><td>单文档注入</td><td>"离线优化、部署零开销"原则相同</td></tr>
+    <tr><td>SkillsVote<a class="cite" href="#ref7">[7]</a></td><td>库治理(推荐"互补"技能集)</td><td>推荐时定性考虑,无量化验证</td><td>百万级库 + agentic 检索</td><td>其推荐器作为 E4 基线;其引述的 SkillRouter(全文路由)同属检索改进而非组合验证</td></tr>
+    <tr><td>SkillsBench<a class="cite" href="#ref1">[1]</a></td><td>—(基准)</td><td>仅现象级分层(技能数、长度)</td><td>任务自备技能,无库化</td><td>本研究的任务与判分器来源;其表 5/6 与 16 个负增益任务是动机证据</td></tr>
+    <tr><td><b>本研究</b></td><td><b>技能子集</b></td><td><b>显式测量 I(sᵢ,sⱼ) 并用于决策</b></td><td><b>库 + 检索(评测协议本身)</b></td><td>—</td></tr>
+  </tbody>
+</table>
+
+<h2 id="sec11">11&nbsp;&nbsp;时间计划(16 周)</h2>
+
+<table>
+  <caption>表 4&nbsp;&nbsp;进度安排</caption>
+  <thead><tr><th>阶段</th><th>周次</th><th>内容</th><th>里程碑</th></tr></thead>
+  <tbody>
+    <tr><td>一</td><td>1–3</td><td>E0 基准构造;oracle 复现校验;近重复标注</td><td>SkillsBench-Lib 冻结</td></tr>
+    <tr><td>二</td><td>4–6</td><td>E1 现象刻画(含解耦条件 f)</td><td>库化损失与负增益清单</td></tr>
+    <tr><td>三</td><td>7–9</td><td>E2 交互测量与方差分解;<b>第 8 周 R1 判断节点</b></td><td>交互矩阵 + 类型分布</td></tr>
+    <tr><td>四</td><td>10–11</td><td>E3 真值注入;CASL 实现与调试</td><td>检测查准/查全</td></tr>
+    <tr><td>五</td><td>12–13</td><td>E4 端到端对比;E5 消融</td><td>主结果表</td></tr>
+    <tr><td>六</td><td>14</td><td>E6 组内消融;E7 迁移</td><td>机理与边界章节素材</td></tr>
+    <tr><td>七</td><td>15–16</td><td>写作、复核、开源打包</td><td>投稿稿件</td></tr>
+  </tbody>
+</table>
+
+<h2 id="refs">参考文献与数据来源</h2>
+<ol class="ref-list">
+  <li id="ref1">Li X., Liu Y., Chen W., et al. <i>SkillsBench: Benchmarking How Well Agent Skills Work Across Diverse Tasks.</i> arXiv:2602.12670, 2026. <a href="https://arxiv.org/abs/2602.12670">https://arxiv.org/abs/2602.12670</a>(+16.2pp 均值、16/84 负增益、表 5 技能数分层、表 6 复杂度分层、泄题审查、附录 H 成本)</li>
+  <li id="ref2">SkillsBench 官方代码与数据仓库(v1.1,87 任务,Apache 2.0)。<a href="https://github.com/benchflow-ai/skillsbench">https://github.com/benchflow-ai/skillsbench</a></li>
+  <li id="ref3">SkillsBench 官网技能清单页(本提案预研统计的数据来源,2026-07-05 抓取:190 技能 / 74 任务 / 无跨任务共用)。<a href="https://www.skillsbench.ai/skills">https://www.skillsbench.ai/skills</a></li>
+  <li id="ref4">Zhang H., Fan S., Zou H. P., et al. <i>CoEvoSkills: Self-Evolving Agent Skills via Co-Evolutionary Verification.</i> arXiv:2604.01687, 2026. <a href="https://arxiv.org/abs/2604.01687">https://arxiv.org/abs/2604.01687</a></li>
+  <li id="ref5">Ma Y., Huang Y., Bao H., et al. <i>SkillGen: Verified Inference-Time Agent Skill Synthesis.</i> arXiv:2605.10999, 2026. <a href="https://arxiv.org/abs/2605.10999">https://arxiv.org/abs/2605.10999</a>(干预式净效应 Δ 的定义来源)</li>
+  <li id="ref6">Zhang Z., Lin Y., Kuang N., et al. <i>Co-Evolving Skill Generation and Policy Optimization.</i> arXiv:2606.08755, 2026. <a href="https://arxiv.org/abs/2606.08755">https://arxiv.org/abs/2606.08755</a>(条件边际效用)</li>
+  <li id="ref7">Liu H., Yang H., Jiang T., et al. <i>SkillsVote: Lifecycle Governance of Agent Skills from Collection, Recommendation to Evolution.</i> arXiv:2605.18401, 2026. <a href="https://arxiv.org/abs/2605.18401">https://arxiv.org/abs/2605.18401</a>(agentic 库内检索;文中引述 SkillRouter)</li>
+  <li id="ref8">Yang Y., Gong Z., Huang W., et al. <i>SkillOpt: Executive Strategy for Self-Evolving Agent Skills.</i> arXiv:2605.23904, 2026. <a href="https://arxiv.org/abs/2605.23904">https://arxiv.org/abs/2605.23904</a></li>
+  <li id="ref9">Jiang Y., Li D., Deng H., et al. <i>SoK: Agentic Skills — Beyond Tool Use in LLM Agents.</i> arXiv:2602.20867, 2026. <a href="https://arxiv.org/abs/2602.20867">https://arxiv.org/abs/2602.20867</a>(技能四要素定义与生命周期)</li>
+  <li id="ref10">Xu R., Yan Y. <i>Agent Skills for Large Language Models: Architecture, Acquisition, Security, and the Path Forward.</i> arXiv:2602.12430, 2026. <a href="https://arxiv.org/abs/2602.12430">https://arxiv.org/abs/2602.12430</a>(渐进式披露与约 30 token 元数据层)</li>
+  <li id="ref11">Ling G., Zhong S., Huang R. <i>Agent Skills: A Data-Driven Analysis of Claude Skills.</i> arXiv:2602.08004, 2026. <a href="https://arxiv.org/abs/2602.08004">https://arxiv.org/abs/2602.08004</a>(真实市场的技能规模与冗余,库化形态的生态证据)</li>
+  <li id="ref12">数据来源:silence-detector 技能原文(含 "Requires energy data from energy-calculator skill"、"Output format compatible with segment-combiner")。<a href="https://github.com/benchflow-ai/skillsbench/blob/main/tasks/video-silence-remover/environment/skills/silence-detector/SKILL.md">tasks/video-silence-remover/.../silence-detector/SKILL.md</a></li>
+  <li id="ref13">数据来源:ffmpeg-keyframe-extraction 技能原文(FFmpeg 取 I 帧,文件序列输出)。<a href="https://github.com/benchflow-ai/skillsbench/blob/main/tasks/mario-coin-counting/environment/skills/ffmpeg-keyframe-extraction/SKILL.md">tasks/mario-coin-counting/.../ffmpeg-keyframe-extraction/SKILL.md</a></li>
+  <li id="ref14">数据来源:video-frame-extraction 技能原文(OpenCV 取帧,JSON 模式输出)。<a href="https://github.com/benchflow-ai/skillsbench/blob/main/tasks/jpg-ocr-stat/environment/skills/video-frame-extraction/SKILL.md">tasks/jpg-ocr-stat/.../video-frame-extraction/SKILL.md</a></li>
+  <li id="ref15">数据来源:SkillsBench registry.json(版本与任务清单锁定依据)。<a href="https://github.com/benchflow-ai/skillsbench/blob/main/registry.json">registry.json</a></li>
+</ol>
+
+<div class="footnote">
+  说明:① 本报告为研究计划,尚未实施;第 2 节"预研证据"为已完成的真实数据核实(2026-07-05,方法:抓取官网技能清单页统计 + 官方仓库原文抽查),其余章节均为设计。② 引用的全部数字(+16.2pp、+18.6/+5.9pp、−2.9pp、16/84、7,308、190/74 等)已核对原文或原始数据。③ 预研中"74 个任务"指官网技能页收录技能的任务数;基准 v1.1 共 87 个任务,其余任务未在该页列出,E0 步骤 2 将以仓库目录为准重新完整统计。④ 涉及效果幅度的陈述均为方向性假设,以实测为准。
+</div>
+
+</div>
+</body>
+</html>
